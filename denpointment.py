@@ -90,7 +90,7 @@ def index():
         password_entered = form.password.data
 
         cursor = mysql.connection.cursor()
-        query = "SELECT * FROM Persons WHERE email = %s"
+        query = "SELECT * FROM persons WHERE email = %s"
         result_set = cursor.execute(query, (email,))
         if result_set > 0:
             data = cursor.fetchone()
