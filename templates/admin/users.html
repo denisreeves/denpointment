@@ -1,0 +1,48 @@
+{% extends "_inner_layout.html" %}
+
+{% block title %}Assign Doctor Room{% endblock %}
+
+{% block section %}
+    <h2>Assign Doctor to Room</h2>
+{% endblock %}
+
+{% block article %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <p style="color:red;">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <style>
+        #navbarNavDropdown{
+            display: none;
+        }
+    </style>
+    <form method="POST" action="{{ url_for('assign_room') }}">
+        <label for="doctor">Select Doctor:</label>
+        <select name="doctor_ssn" id="doctor" required>
+            <option value="">-- Select Doctor --</option>
+            {% for user in users %}
+            <option value="{{ user['ssn'] }}">{{ user['first_name'] }} {{ user['last_name'] }} ({{ user['ssn'] }})</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <label for="room_number">Room Number:</label>
+        <input type="text" name="room_number" id="room_number" placeholder="Enter room number" required>
+        <br><br>
+
+        <button type="submit">Assign Room</button>
+    </form>
+
+    <br>
+    <h2>List of Dentists</h2>
+    <ul>
+        {% for dentist in dentists %}
+        <li>{{ dentist['first_name'] }} {{ dentist['last_name'] }} ({{ dentist['ssn'] }})</li>
+        {% endfor %}
+    </ul>
+    <br/>
+    <a href="{{ url_for('admin_logout') }}">Logout</a>
+{% endblock %}
